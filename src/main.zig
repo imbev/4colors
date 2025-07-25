@@ -18,6 +18,20 @@ pub const Rectangle = struct {
     width: usize,
     height: usize,
 
+    pub fn init(
+        renderer: *c.SDL_Renderer,
+        color: Color,
+        x: usize, y:usize) Rectangle {
+        return Rectangle {
+            .renderer = renderer,
+            .color = color,
+            .x = x,
+            .y = y,
+            .width = 400,
+            .height = 320
+        };
+    }
+
     pub fn render(self: Rectangle) void {
         switch (self.color) {
             Color.BLUE => {
@@ -55,41 +69,10 @@ pub fn main() !void {
     const renderer: *c.SDL_Renderer = c.SDL_CreateRenderer(window, null).?;
     defer c.SDL_DestroyRenderer(renderer);
 
-    var blue_rect = Rectangle {
-        .renderer = renderer,
-        .color = Color.BLUE,
-        .x = 0,
-        .y = 0,
-        .width = 400,
-        .height = 320,
-    };
-
-    var green_rect = Rectangle {
-        .renderer = renderer,
-        .color = Color.GREEN,
-        .x = 400,
-        .y = 0,
-        .width = 400,
-        .height = 320,
-    };
-
-    var red_rect = Rectangle {
-        .renderer = renderer,
-        .color = Color.RED,
-        .x = 0,
-        .y = 320,
-        .width = 400,
-        .height = 320,
-    };
-
-    var yellow_rect = Rectangle {
-        .renderer = renderer,
-        .color = Color.YELLOW,
-        .x = 400,
-        .y = 320,
-        .width = 400,
-        .height = 320
-    };
+    var blue_rect = Rectangle.init(renderer, Color.BLUE, 0, 0);
+    var green_rect = Rectangle.init(renderer, Color.GREEN, 400, 0);
+    var red_rect = Rectangle.init(renderer, Color.RED, 0, 320);
+    var yellow_rect = Rectangle.init(renderer, Color.YELLOW, 400, 320);
 
     var quit: bool = false;
     var e: c.SDL_Event = std.mem.zeroes(c.SDL_Event);
