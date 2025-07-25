@@ -18,18 +18,8 @@ pub const Rectangle = struct {
     width: usize,
     height: usize,
 
-    pub fn init(
-        renderer: *c.SDL_Renderer,
-        color: Color,
-        x: usize, y:usize) Rectangle {
-        return Rectangle {
-            .renderer = renderer,
-            .color = color,
-            .x = x,
-            .y = y,
-            .width = 400,
-            .height = 320
-        };
+    pub fn init(renderer: *c.SDL_Renderer, color: Color, x: usize, y: usize) Rectangle {
+        return Rectangle{ .renderer = renderer, .color = color, .x = x, .y = y, .width = 400, .height = 320 };
     }
 
     pub fn render(self: Rectangle) void {
@@ -45,14 +35,9 @@ pub const Rectangle = struct {
             },
             Color.YELLOW => {
                 _ = c.SDL_SetRenderDrawColor(self.renderer, 255, 255, 0, 100);
-            }
+            },
         }
-        const rect = c.SDL_FRect{
-            .x = @floatFromInt(self.x),
-            .y = @floatFromInt(self.y),
-            .w = @floatFromInt(self.width),
-            .h = @floatFromInt(self.height)
-        };
+        const rect = c.SDL_FRect{ .x = @floatFromInt(self.x), .y = @floatFromInt(self.y), .w = @floatFromInt(self.width), .h = @floatFromInt(self.height) };
         _ = c.SDL_RenderFillRect(self.renderer, &rect);
     }
 };
@@ -77,9 +62,7 @@ pub fn main() !void {
     var quit: bool = false;
     var e: c.SDL_Event = std.mem.zeroes(c.SDL_Event);
     while (!quit) {
-
-        while ( c.SDL_PollEvent(&e)) {
-
+        while (c.SDL_PollEvent(&e)) {
             if (e.type == c.SDL_EVENT_QUIT) {
                 quit = true;
             }
@@ -95,6 +78,4 @@ pub fn main() !void {
 
         _ = c.SDL_RenderPresent(renderer);
     }
-
 }
-
